@@ -73,14 +73,14 @@ function AdminDashboard() {
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      if (activeTab === "registrations") await fetchRegistrations();
-      else await fetchTrainings();
-      setLoading(false);
-    };
-    loadData();
-  }, [activeTab]);
+  const loadData = async () => {
+    setLoading(true);
+    if (activeTab === "registrations") await fetchRegistrations();
+    else await fetchTrainings();
+    setLoading(false);
+  };
+  loadData();
+}, [activeTab, fetchRegistrations, fetchTrainings]);
 
   return (
     <div className="container-fluid py-4" style={{ background: "linear-gradient(135deg, #ff003c, #ff002f)", minHeight: "100vh" }}>

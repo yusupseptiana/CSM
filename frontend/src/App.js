@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import Home from "./Home";
-import TrainingPage from "./pages/TrainingPage";
+// import TrainingPage from "./pages/TrainingPage";
 import RegistrationForm from "./components/RegistrationForm";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";

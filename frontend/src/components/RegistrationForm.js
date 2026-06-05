@@ -30,7 +30,7 @@ function RegistrationForm() {
     setLoading(true);
     setMessage("");
     try {
-      const res = await axios.post("http://localhost:5000/api/register", form);
+      // const res = await axios.post("http://localhost:5000/api/register", form);
       setMessage("Pendaftaran berhasil! Silakan tunggu konfirmasi dari admin.");
       setForm({ training_id: "", nama: "", email: "", no_telepon: "" });
       setTimeout(() => navigate("/"), 3000);
