@@ -1,39 +1,51 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const pool = require("../db"); // Ganti dari db ke pool (karena kita pakai pg Pool)
 
 // GET semua training
-router.get("/", (req, res) => {
-  db.query("SELECT * FROM training", (err, result) => {
-    if (err) return res.send(err);
-    res.json(result);
-  });
+router.get("/", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM training ORDER BY id");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // GET detail training
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const id = req.params.id;
 
-  db.query(
-    "SELECT * FROM training WHERE id_training = ?",
-    [id],
-    (err, result) => {
-      if (err) return res.send(err);
-      res.json(result[0]);
+  try {
+    const result = await pool.query("SELECT * FROM training WHERE id = $1", [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Training tidak ditemukan" });
     }
-  );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // TAMBAH training
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { nama_training, deskripsi, tanggal, kuota } = req.body;
 
-  const sql = "INSERT INTO training (nama_training, deskripsi, tanggal, kuota) VALUES (?, ?, ?, ?)";
+  const sql = `INSERT INTO training (nama_training, deskripsi, tanggal, kuota) 
+               VALUES ($1, $2, $3, $4) RETURNING *`;
 
-  db.query(sql, [nama_training, deskripsi, tanggal, kuota], (err, result) => {
-    if (err) return res.send(err);
-    res.json({ message: "Training berhasil ditambahkan" });
-  });
+  try {
+    const result = await pool.query(sql, [nama_training, deskripsi, tanggal, kuota]);
+    res.json({ 
+      message: "Training berhasil ditambahkan",
+      data: result.rows[0]
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;

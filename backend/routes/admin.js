@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const pool = require("../db"); // Ganti dari db ke pool
 const bcrypt = require("bcryptjs");
 
 // Middleware cek login admin
@@ -13,14 +13,20 @@ const isAdmin = (req, res, next) => {
 };
 
 // Login admin
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
     const { username, password } = req.body;
-    db.query("SELECT * FROM admin WHERE username = ?", [username], async (err, results) => {
-        if (err) return res.status(500).json(err);
-        if (results.length === 0) return res.status(401).json({ message: "Username atau password salah" });
+    
+    try {
+        const result = await pool.query("SELECT * FROM admin WHERE username = $1", [username]);
         
-        const admin = results[0];
-        // Karena kita pakai bcrypt, bandingkan hash
+        if (result.rows.length === 0) {
+            return res.status(401).json({ message: "Username atau password salah" });
+        }
+        
+        const admin = result.rows[0];
+        
+        // Bandingkan password (masih plain text, nanti ganti bcrypt.compare)
+        // TODO: Ganti dengan bcrypt.compare(password, admin.password_hash)
         if (password !== admin.password_hash) {
             return res.status(401).json({ message: "Username atau password salah" });
         }
@@ -28,7 +34,11 @@ router.post("/login", (req, res) => {
         req.session.adminLoggedIn = true;
         req.session.adminId = admin.id;
         res.json({ message: "Login sukses", redirect: "/admin/dashboard" });
-    });
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Logout
@@ -38,71 +48,110 @@ router.post("/logout", (req, res) => {
 });
 
 // GET semua pendaftaran (bisa filter training_id)
-router.get("/registrations", isAdmin, (req, res) => {
+router.get("/registrations", isAdmin, async (req, res) => {
     let sql = `
         SELECT r.*, t.nama_training, t.tanggal, t.tempat 
         FROM registrations r 
         JOIN training t ON r.training_id = t.id
     `;
     const params = [];
+    
     if (req.query.training_id) {
-        sql += " WHERE r.training_id = ?";
+        sql += " WHERE r.training_id = $1";
         params.push(req.query.training_id);
     }
     sql += " ORDER BY r.created_at DESC";
     
-    db.query(sql, params, (err, results) => {
-        if (err) return res.status(500).json(err);
-        res.json(results);
-    });
+    try {
+        const result = await pool.query(sql, params);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Update status pendaftaran
-router.put("/registrations/:id/status", isAdmin, (req, res) => {
+router.put("/registrations/:id/status", isAdmin, async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
+    
     if (!['pending', 'confirmed', 'cancelled'].includes(status)) {
         return res.status(400).json({ message: "Status tidak valid" });
     }
-    db.query("UPDATE registrations SET status = ? WHERE id = ?", [status, id], (err) => {
-        if (err) return res.status(500).json(err);
+    
+    try {
+        await pool.query("UPDATE registrations SET status = $1 WHERE id = $2", [status, id]);
         res.json({ message: "Status berhasil diupdate" });
-    });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // CRUD Training (untuk admin)
-router.get("/trainings", isAdmin, (req, res) => {
-    db.query("SELECT * FROM training ORDER BY tanggal DESC", (err, results) => {
-        if (err) return res.status(500).json(err);
-        res.json(results);
-    });
+
+// GET semua training
+router.get("/trainings", isAdmin, async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM training ORDER BY tanggal DESC");
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.post("/trainings", isAdmin, (req, res) => {
+// POST training baru
+router.post("/trainings", isAdmin, async (req, res) => {
     const { nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota } = req.body;
-    const sql = "INSERT INTO training (nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    db.query(sql, [nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota], (err, result) => {
-        if (err) return res.status(500).json(err);
-        res.status(201).json({ message: "Training berhasil ditambahkan", id: result.insertId });
-    });
+    
+    const sql = `INSERT INTO training (nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota) 
+                 VALUES ($1, $2, $3, $4, $5, $6, $7) 
+                 RETURNING id`;
+    
+    try {
+        const result = await pool.query(sql, [nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota]);
+        res.status(201).json({ 
+            message: "Training berhasil ditambahkan", 
+            id: result.rows[0].id 
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.put("/trainings/:id", isAdmin, (req, res) => {
+// UPDATE training
+router.put("/trainings/:id", isAdmin, async (req, res) => {
     const { id } = req.params;
     const { nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota } = req.body;
-    const sql = "UPDATE training SET nama_training=?, deskripsi=?, tanggal=?, durasi=?, tempat=?, harga=?, kuota=? WHERE id=?";
-    db.query(sql, [nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota, id], (err) => {
-        if (err) return res.status(500).json(err);
+    
+    const sql = `UPDATE training 
+                 SET nama_training = $1, deskripsi = $2, tanggal = $3, durasi = $4, tempat = $5, harga = $6, kuota = $7 
+                 WHERE id = $8`;
+    
+    try {
+        await pool.query(sql, [nama_training, deskripsi, tanggal, durasi, tempat, harga, kuota, id]);
         res.json({ message: "Training berhasil diupdate" });
-    });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.delete("/trainings/:id", isAdmin, (req, res) => {
+// DELETE training
+router.delete("/trainings/:id", isAdmin, async (req, res) => {
     const { id } = req.params;
-    db.query("DELETE FROM training WHERE id = ?", [id], (err) => {
-        if (err) return res.status(500).json(err);
+    
+    try {
+        // Registrations akan terhapus otomatis karena ON DELETE CASCADE
+        await pool.query("DELETE FROM training WHERE id = $1", [id]);
         res.json({ message: "Training dihapus" });
-    });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 module.exports = router;
