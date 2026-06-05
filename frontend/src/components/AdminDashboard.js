@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react"; // Tambahkan useCallback
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -13,23 +13,25 @@ function AdminDashboard() {
   const [editId, setEditId] = useState(null);
   const navigate = useNavigate();
 
-  const fetchRegistrations = async () => {
+  // Bungkus dengan useCallback
+  const fetchRegistrations = useCallback(async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/admin/registrations", { withCredentials: true });
       setRegistrations(res.data);
     } catch (err) {
       if (err.response?.status === 401) navigate("/admin/login");
     }
-  };
+  }, [navigate]);
 
-  const fetchTrainings = async () => {
+  // Bungkus dengan useCallback
+  const fetchTrainings = useCallback(async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/admin/trainings", { withCredentials: true });
       setTrainings(res.data);
     } catch (err) {
       if (err.response?.status === 401) navigate("/admin/login");
     }
-  };
+  }, [navigate]);
 
   const updateStatus = async (id, status) => {
     try {
@@ -73,14 +75,14 @@ function AdminDashboard() {
   };
 
   useEffect(() => {
-  const loadData = async () => {
-    setLoading(true);
-    if (activeTab === "registrations") await fetchRegistrations();
-    else await fetchTrainings();
-    setLoading(false);
-  };
-  loadData();
-}, [activeTab, fetchRegistrations, fetchTrainings]);
+    const loadData = async () => {
+      setLoading(true);
+      if (activeTab === "registrations") await fetchRegistrations();
+      else await fetchTrainings();
+      setLoading(false);
+    };
+    loadData();
+  }, [activeTab, fetchRegistrations, fetchTrainings]);
 
   return (
     <div className="container-fluid py-4" style={{ background: "linear-gradient(135deg, #ff003c, #ff002f)", minHeight: "100vh" }}>
