@@ -1,0 +1,287 @@
+/* =========================
+   GLOBAL
+========================= */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(
+    135deg,
+    #ff003c,
+    #ff002f,
+    #ff002f
+  );
+
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* =========================
+   GLASS EFFECT
+========================= */
+.glass {
+  background: rgba(255,255,255,0.12);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.15);
+
+  border-radius: 20px;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+  position: fixed !important;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+
+  padding: 15px 0;
+  font-weight: bold;
+
+  background: rgba(255,255,255,0.08) !important;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.15);
+}
+
+.navbar-brand {
+  color: white !important;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: white !important;
+  font-weight: 500;
+  margin-left: 15px;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #ffd6de !important;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   HERO
+========================= */
+.hero-section {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero-box {
+  padding: 60px;
+  width: 100%;
+  max-width: 1000px;
+
+  margin: auto;
+}
+
+.hero-title {
+  color: white;
+  font-size: 70px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.hero-text {
+  color: rgba(255,255,255,0.9);
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.hero-btn {
+  margin-top: 30px;
+
+  border: none;
+  padding: 14px 40px;
+
+  border-radius: 50px;
+
+  background: white;
+  color: #ff003c;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  transform: scale(1.05);
+  background: #ffe3ea;
+}
+
+/* =========================
+   SECTION
+========================= */
+.section {
+  padding: 100px 0;
+}
+
+.section-title {
+  text-align: center;
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 60px;
+}
+
+/* =========================
+   CARD
+========================= */
+.glass-card {
+  padding: 35px;
+  color: white;
+  height: 100%;
+
+  transition: 0.4s;
+}
+
+.glass-card:hover {
+  transform:
+    translateY(-10px)
+    scale(1.02);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.2);
+}
+
+.glass-card h4 {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   TABLE
+========================= */
+.glass-table {
+  overflow: hidden;
+}
+
+.table {
+  margin: 0;
+  color: white;
+}
+
+.table thead {
+  background: rgba(255,255,255,0.15);
+}
+
+.table td,
+.table th {
+  padding: 18px !important;
+  border-color:
+    rgba(255,255,255,0.1) !important;
+}
+
+/* =========================
+   FORM
+========================= */
+.form-control {
+  background: rgba(255,255,255,0.12) !important;
+
+  border: 1px solid rgba(255,255,255,0.2) !important;
+
+  color: white !important;
+
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.form-control::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: white !important;
+}
+
+label {
+  color: white;
+  margin-bottom: 8px;
+}
+
+.submit-btn {
+  background: white;
+  color: #ff003c;
+
+  border: none;
+  width: 100%;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  transform: scale(1.02);
+  background: #ffe3ea;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer {
+  padding: 30px;
+  text-align: center;
+  color: white;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(10px);
+}
+
+/* PROFILE */
+.glass img {
+  transition: 0.4s;
+}
+
+.glass img:hover {
+  transform: scale(1.03);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width: 768px) {
+
+  .hero-title {
+    font-size: 45px;
+  }
+
+  .section-title {
+    font-size: 35px;
+  }
+
+  .hero-box {
+    padding: 40px 25px;
+  }
+
+}

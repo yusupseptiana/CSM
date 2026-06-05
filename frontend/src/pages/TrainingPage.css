@@ -1,0 +1,113 @@
+.training-page {
+  min-height: 100vh;
+
+  background: linear-gradient(
+    135deg,
+    #ff003c,
+    #ff4d6d,
+    #ff758f
+  );
+
+  color: white;
+}
+
+.training-hero {
+  padding: 140px 20px 100px;
+}
+
+.training-title {
+  font-size: 65px;
+  font-weight: bold;
+}
+
+.training-subtitle {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.section-title {
+  color: white;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.12);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  border-radius: 20px;
+
+  padding: 35px;
+
+  height: 100%;
+
+  transition: 0.4s;
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.15);
+}
+
+.glass-card:hover {
+  transform: translateY(-10px);
+}
+
+.glass-card h3 {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.glass-card ul {
+  margin-top: 20px;
+}
+
+.glass-card li {
+  margin-bottom: 10px;
+}
+
+.training-btn {
+  margin-top: 20px;
+
+  width: 100%;
+
+  border: none;
+
+  background: white;
+  color: #ff003c;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.training-btn:hover {
+  background: #ffe3ea;
+  transform: scale(1.02);
+}
+
+.glass-box {
+  background: rgba(255,255,255,0.12);
+
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  border-radius: 20px;
+
+  padding: 50px;
+}
+
+@media(max-width: 768px) {
+
+  .training-title {
+    font-size: 45px;
+  }
+
+}
