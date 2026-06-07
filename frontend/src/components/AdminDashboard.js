@@ -16,7 +16,7 @@ function AdminDashboard() {
   // Bungkus dengan useCallback
   const fetchRegistrations = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/registrations", { withCredentials: true });
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/registrations`, { withCredentials: true });
       setRegistrations(res.data);
     } catch (err) {
       if (err.response?.status === 401) navigate("/admin/login");
@@ -26,7 +26,7 @@ function AdminDashboard() {
   // Bungkus dengan useCallback
   const fetchTrainings = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/trainings", { withCredentials: true });
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/trainings`, { withCredentials: true });
       setTrainings(res.data);
     } catch (err) {
       if (err.response?.status === 401) navigate("/admin/login");
@@ -35,7 +35,7 @@ function AdminDashboard() {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/registrations/${id}/status`, { status }, { withCredentials: true });
+      await axios.put(`${process.env.REACT_APP_API_URL}/admin/registrations/${id}/status`, { status }, { withCredentials: true });
       fetchRegistrations();
     } catch (err) {
       alert("Gagal update status");
@@ -46,9 +46,9 @@ function AdminDashboard() {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/admin/trainings/${editId}`, trainingForm, { withCredentials: true });
+        await axios.put(`${process.env.REACT_APP_API_URL}/admin/trainings/${editId}`, trainingForm, { withCredentials: true });
       } else {
-        await axios.post("http://localhost:5000/api/admin/trainings", trainingForm, { withCredentials: true });
+        await axios.post(`${process.env.REACT_APP_API_URL}/admin/trainings`, trainingForm, { withCredentials: true });
       }
       setTrainingForm({ nama_training: "", deskripsi: "", tanggal: "", durasi: "", tempat: "", harga: "", kuota: "" });
       setEditId(null);
@@ -61,7 +61,7 @@ function AdminDashboard() {
   const deleteTraining = async (id) => {
     if (window.confirm("Yakin hapus training ini?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/trainings/${id}`, { withCredentials: true });
+        await axios.delete(`${process.env.REACT_APP_API_URL}/admin/trainings/${id}`, { withCredentials: true });
         fetchTrainings();
       } catch (err) {
         alert("Gagal hapus training");
@@ -70,7 +70,7 @@ function AdminDashboard() {
   };
 
   const logout = async () => {
-    await axios.post("http://localhost:5000/api/admin/logout", {}, { withCredentials: true });
+    await axios.post(`${process.env.REACT_APP_API_URL}/admin/logout`, {}, { withCredentials: true });
     navigate("/admin/login");
   };
 
