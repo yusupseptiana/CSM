@@ -7,9 +7,9 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/training")
-      .then(res => setData(res.data))
-      .catch(err => console.log(err));
+  axios.get(`${process.env.REACT_APP_API_URL}/training`)
+    .then(res => setData(res.data))
+    .catch(err => console.log(err));
   }, []);
 
   return (
