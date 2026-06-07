@@ -179,7 +179,7 @@ function App() {
             <tbody>
               {data.map(item => (
                 <tr key={item.id}>
-                  <td>{item.nama}</td>
+                  <td>{item.nama_training}</td>
                   <td>{item.tanggal}</td>
                   <td>{item.durasi}</td>
                   <td>{item.tempat}</td>
