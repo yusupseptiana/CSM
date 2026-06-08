@@ -15,8 +15,8 @@ function TrainingList() {
     <div className="container py-5">
       <h2>Daftar Training</h2>
 
-      {data.map(item => (
-        <div key={item.id_training} className="card p-3 mb-3">
+      {Array.isArray(data) ? data.map(item => (
+        <div key={item.id || item.id_training} className="card p-3 mb-3">
           <h4>{item.nama_training}</h4>
           <p>{item.deskripsi}</p>
 
@@ -24,7 +24,7 @@ function TrainingList() {
             <button className="btn btn-dark">Detail</button>
           </Link>
         </div>
-      ))}
+      )) : null}
     </div>
   );
 }

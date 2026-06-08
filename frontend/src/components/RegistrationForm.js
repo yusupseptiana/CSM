@@ -65,11 +65,11 @@ function RegistrationForm() {
                     required
                   >
                     <option value="">-- Pilih Training --</option>
-                    {trainings.map(t => (
-                      <option key={t.id} value={t.id}>
+                    {Array.isArray(trainings) ? trainings.map(t => (
+                      <option key={t.id || t.id_training} value={t.id || t.id_training}>
                         {t.nama_training} - {t.tanggal} (Rp {t.harga?.toLocaleString()})
                       </option>
-                    ))}
+                    )) : null}
                   </select>
                 </div>
                 <div className="mb-3">

@@ -177,7 +177,7 @@ function App() {
             </thead>
 
             <tbody>
-              {data.map(item => (
+              {Array.isArray(data) ? data.map(item => (
                 <tr key={item.id}>
                   <td>{item.nama_training}</td>
                   <td>{item.tanggal}</td>
@@ -185,7 +185,7 @@ function App() {
                   <td>{item.tempat}</td>
                   <td>Rp {item.harga}</td>
                 </tr>
-              ))}
+              )) : null}
             </tbody>
           </table>
 

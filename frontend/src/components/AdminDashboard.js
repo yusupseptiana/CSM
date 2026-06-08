@@ -17,7 +17,8 @@ function AdminDashboard() {
   const fetchRegistrations = useCallback(async () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/registrations`, { withCredentials: true });
-      setRegistrations(res.data);
+      const rdata = res.data;
+      setRegistrations(Array.isArray(rdata) ? rdata : (rdata?.data || []));
     } catch (err) {
       if (err.response?.status === 401) navigate("/admin/login");
     }
@@ -27,7 +28,8 @@ function AdminDashboard() {
   const fetchTrainings = useCallback(async () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/trainings`, { withCredentials: true });
-      setTrainings(res.data);
+      const tdata = res.data;
+      setTrainings(Array.isArray(tdata) ? tdata : (tdata?.data || []));
     } catch (err) {
       if (err.response?.status === 401) navigate("/admin/login");
     }
@@ -123,8 +125,8 @@ function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {registrations.map(reg => (
-                    <tr key={reg.id}>
+                  {Array.isArray(registrations) ? registrations.map(reg => (
+                    <tr key={reg.id || reg.id_registration}>
                       <td>{reg.nama}</td>
                       <td>{reg.email}</td>
                       <td>{reg.nama_training}</td>
@@ -147,7 +149,7 @@ function AdminDashboard() {
                         </select>
                       </td>
                     </tr>
-                  ))}
+                  )) : null}
                 </tbody>
               </table>
             </div>
@@ -211,8 +213,8 @@ function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {trainings.map(t => (
-                      <tr key={t.id}>
+                    {Array.isArray(trainings) ? trainings.map(t => (
+                      <tr key={t.id || t.id_training}>
                         <td>{t.nama_training}</td>
                         <td>{t.tanggal}</td>
                         <td>{t.tempat}</td>
@@ -220,7 +222,7 @@ function AdminDashboard() {
                         <td>{t.kuota}</td>
                         <td>
                           <button className="btn btn-sm btn-warning me-2" onClick={() => {
-                            setEditId(t.id);
+                            setEditId(t.id || t.id_training);
                             setTrainingForm({
                               nama_training: t.nama_training,
                               deskripsi: t.deskripsi,
@@ -231,10 +233,10 @@ function AdminDashboard() {
                               kuota: t.kuota
                             });
                           }}>Edit</button>
-                          <button className="btn btn-sm btn-danger" onClick={() => deleteTraining(t.id)}>Hapus</button>
+                          <button className="btn btn-sm btn-danger" onClick={() => deleteTraining(t.id || t.id_training)}>Hapus</button>
                         </td>
                       </tr>
-                    ))}
+                    )) : null}
                   </tbody>
                 </table>
               </div>
