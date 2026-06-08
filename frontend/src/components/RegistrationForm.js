@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar"; 
+import apiPath from "../api";
 
 function RegistrationForm() {
   const [trainings, setTrainings] = useState([]);
@@ -16,7 +17,7 @@ function RegistrationForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/training`)
+    axios.get(apiPath('/training'))
       .then(res => setTrainings(res.data))
       .catch(err => console.log(err));
   }, []);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import apiPath from "./api";
 import "./App.css";
 import Navbar from "./components/Navbar";
 
@@ -7,9 +8,9 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-  axios.get(`${process.env.REACT_APP_API_URL}/training`)
-    .then(res => setData(res.data))
-    .catch(err => console.log(err));
+    axios.get(apiPath('/training'))
+      .then(res => setData(res.data))
+      .catch(err => console.log(err));
   }, []);
 
   return (

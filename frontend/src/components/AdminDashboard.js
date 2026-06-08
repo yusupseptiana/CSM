@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react"; // Tambahkan useCallback
 import axios from "axios";
+import apiPath from "../api";
 import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
@@ -16,7 +17,7 @@ function AdminDashboard() {
   // Bungkus dengan useCallback
   const fetchRegistrations = useCallback(async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/registrations`, { withCredentials: true });
+      const res = await axios.get(apiPath('/admin/registrations'), { withCredentials: true });
       const rdata = res.data;
       setRegistrations(Array.isArray(rdata) ? rdata : (rdata?.data || []));
     } catch (err) {
@@ -27,7 +28,7 @@ function AdminDashboard() {
   // Bungkus dengan useCallback
   const fetchTrainings = useCallback(async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/trainings`, { withCredentials: true });
+      const res = await axios.get(apiPath('/admin/trainings'), { withCredentials: true });
       const tdata = res.data;
       setTrainings(Array.isArray(tdata) ? tdata : (tdata?.data || []));
     } catch (err) {
@@ -37,7 +38,7 @@ function AdminDashboard() {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/admin/registrations/${id}/status`, { status }, { withCredentials: true });
+      await axios.put(apiPath(`/admin/registrations/${id}/status`), { status }, { withCredentials: true });
       fetchRegistrations();
     } catch (err) {
       alert("Gagal update status");
@@ -48,7 +49,7 @@ function AdminDashboard() {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/admin/trainings/${editId}`, trainingForm, { withCredentials: true });
+        await axios.put(apiPath(`/admin/trainings/${editId}`), trainingForm, { withCredentials: true });
       } else {
         await axios.post(`${process.env.REACT_APP_API_URL}/admin/trainings`, trainingForm, { withCredentials: true });
       }
@@ -63,7 +64,7 @@ function AdminDashboard() {
   const deleteTraining = async (id) => {
     if (window.confirm("Yakin hapus training ini?")) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/admin/trainings/${id}`, { withCredentials: true });
+        await axios.delete(apiPath(`/admin/trainings/${id}`), { withCredentials: true });
         fetchTrainings();
       } catch (err) {
         alert("Gagal hapus training");
@@ -72,7 +73,7 @@ function AdminDashboard() {
   };
 
   const logout = async () => {
-    await axios.post(`${process.env.REACT_APP_API_URL}/admin/logout`, {}, { withCredentials: true });
+    await axios.post(apiPath('/admin/logout'), {}, { withCredentials: true });
     navigate("/admin/login");
   };
 
