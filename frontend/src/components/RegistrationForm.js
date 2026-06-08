@@ -36,8 +36,8 @@ function RegistrationForm() {
     setLoading(true);
     setMessage("");
     try {
-      // const res = await axios.post("http://localhost:5000/api/register", form);
-      setMessage("Pendaftaran berhasil! Silakan tunggu konfirmasi dari admin.");
+      const res = await axios.post(apiPath('/register'), form);
+      setMessage(res.data?.message || "Pendaftaran berhasil! Silakan tunggu konfirmasi dari admin.");
       setForm({ training_id: "", nama: "", email: "", no_telepon: "" });
       setTimeout(() => navigate("/"), 3000);
     } catch (err) {
@@ -65,17 +65,24 @@ function RegistrationForm() {
                   <label className="form-label">Pilih Training</label>
                   <select
                     name="training_id"
-                    className="form-control"
+                    className="form-control form-select"
                     value={form.training_id}
                     onChange={handleChange}
                     required
                   >
                     <option value="">-- Pilih Training --</option>
-                    {Array.isArray(trainings) && trainings.length > 0 ? trainings.map(t => (
-                      <option key={t.id || t.id_training} value={t.id || t.id_training}>
-                        {t.nama_training} - {t.tanggal} (Rp {t.harga?.toLocaleString()})
-                      </option>
-                    )) : (
+                    {Array.isArray(trainings) && trainings.length > 0 ? trainings.map(t => {
+                      const tanggal = new Date(t.tanggal).toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                      });
+                      return (
+                        <option key={t.id || t.id_training} value={t.id || t.id_training}>
+                          {t.nama_training} - {tanggal} (Rp {Number(t.harga).toLocaleString('id-ID')})
+                        </option>
+                      );
+                    }) : (
                       <option value="" disabled> Tidak ada training tersedia </option>
                     )}
                   </select>
