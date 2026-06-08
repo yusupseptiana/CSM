@@ -22,6 +22,11 @@ function RegistrationForm() {
       .catch(err => console.log(err));
   }, []);
 
+  // Debug: log trainings to console to help diagnose empty select
+  useEffect(() => {
+    console.log('RegistrationForm trainings:', trainings);
+  }, [trainings]);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
