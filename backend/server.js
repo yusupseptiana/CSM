@@ -4,10 +4,12 @@ const session = require("express-session");
 require('dotenv').config(); // Tambahkan ini untuk baca .env
 
 const app = express();
+const isProduction = process.env.NODE_ENV === "production";
+
 app.set("trust proxy", 1);
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000", // Nanti ganti dengan URL Vercel
+    origin: process.env.FRONTEND_URL, // Nanti ganti dengan URL Vercel
     credentials: true
 }));
 app.use(express.json());
@@ -17,9 +19,11 @@ app.use(session({
   secret: process.env.SESSION_SECRET || "rahasia_admin_session",
   resave: false,
   saveUninitialized: false,
+  proxy: isProduction,
   cookie: {
-    secure: true,
-    sameSite: "none",
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 3600000
   }
 }));
