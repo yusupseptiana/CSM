@@ -4,6 +4,7 @@ const session = require("express-session");
 require('dotenv').config(); // Tambahkan ini untuk baca .env
 
 const app = express();
+app.set("trust proxy", 1);
 
 app.use(cors({
     origin: process.env.FRONTEND_URL || "http://localhost:3000", // Nanti ganti dengan URL Vercel
@@ -13,10 +14,14 @@ app.use(express.json());
 
 // Session untuk admin login
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'rahasia_admin_session',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, maxAge: 3600000 } // 1 jam
+  secret: process.env.SESSION_SECRET || "rahasia_admin_session",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,
+    sameSite: "none",
+    maxAge: 3600000
+  }
 }));
 
 // Routes
