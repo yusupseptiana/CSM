@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import apiPath from "./api";
 import "./App.css";
@@ -6,12 +7,60 @@ import Navbar from "./components/Navbar";
 
 function App() {
   const [data, setData] = useState([]);
+  
+    const [feedbackForm, setFeedbackForm] = useState({
+    nama: "",
+    email: "",
+    jabatan: "",
+    perusahaan: "",
+    pesan: "",
+    kesan: "",
+    rating: 5
+  });
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [featuredFeedbacks, setFeaturedFeedbacks] = useState([]);
 
   useEffect(() => {
     axios.get(apiPath('/training'))
       .then(res => setData(res.data))
       .catch(err => console.log(err));
+    axios.get(apiPath("/feedbacks/featured"))
+    .then((res) => setFeaturedFeedbacks(Array.isArray(res.data) ? res.data : []))
+    .catch((err) => console.log(err));
   }, []);
+
+  const handleFeedbackChange = (e) => {
+    const { name, value } = e.target;
+    setFeedbackForm((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFeedbackSubmit = async (e) => {
+    e.preventDefault();
+    setFeedbackLoading(true);
+    setFeedbackMessage("");
+
+    try {
+      await axios.post(apiPath("/feedbacks"), feedbackForm);
+      setFeedbackMessage("Pesan & kesan berhasil dikirim.");
+      setFeedbackForm({
+        nama: "",
+        email: "",
+        jabatan: "",
+        perusahaan: "",
+        pesan: "",
+        kesan: "",
+        rating: 5
+      });
+    } catch (error) {
+      setFeedbackMessage("Gagal mengirim pesan & kesan.");
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -195,33 +244,163 @@ function App() {
 
       {/* TESTIMONI */}
       <section id="testimoni" className="container py-5">
-
         <h2 className="text-center mb-4 fw-bold">
           Testimoni
         </h2>
 
         <div className="row">
+          {featuredFeedbacks.length > 0 ? (
+            featuredFeedbacks.map((item) => (
+              <div className="col-md-6 mb-4" key={item.id}>
+                <div className="glass glass-card p-4 shadow border-0 h-100">
+                  <p>"{item.pesan}"</p>
+                  {item.kesan && <p className="mt-2">{item.kesan}</p>}
+                  <strong>
+                    - {item.nama}
+                    {item.perusahaan ? `, ${item.perusahaan}` : ""}
+                  </strong>
+                </div>
+              </div>
+            ))
+          ) : (
+            <>
+              <div className="col-md-6">
+                <div className="glass glass-card p-4 shadow border-0">
+                  <p>"Training sangat membantu dan aplikatif."</p>
+                  <strong>- Perusahaan A</strong>
+                </div>
+              </div>
 
-          <div className="col-md-6">
-            <div className="glass glass-card p-4 shadow border-0">
+              <div className="col-md-6">
+                <div className="glass glass-card p-4 shadow border-0">
+                  <p>"Trainer sangat profesional."</p>
+                  <strong>- Perusahaan B</strong>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+
+{/* //pesan dan kesan */}
+      <section className="feedback-section" id="pesan-kesan">
+        <div className="container">
+          <div className="feedback-wrapper">
+            <div className="feedback-copy">
+              <span className="feedback-badge">Pesan & Kesan</span>
+              <h2>Sampaikan pengalaman Anda setelah mengikuti training</h2>
               <p>
-                "Training sangat membantu dan aplikatif."
+                Masukan dari peserta membantu kami meningkatkan kualitas layanan
+                training dan consulting. Feedback yang sesuai juga dapat dipilih
+                admin untuk ditampilkan di website.
               </p>
+            </div>
 
-              <strong>- Perusahaan A</strong>
+            <div className="feedback-form-card">
+              <form onSubmit={handleFeedbackSubmit}>
+                <div className="row g-3">
+                  <div className="col-md-6">
+                    <label className="form-label">Nama</label>
+                    <input
+                      type="text"
+                      name="nama"
+                      className="form-control"
+                      value={feedbackForm.nama}
+                      onChange={handleFeedbackChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label className="form-label">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      className="form-control"
+                      value={feedbackForm.email}
+                      onChange={handleFeedbackChange}
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label className="form-label">Jabatan</label>
+                    <input
+                      type="text"
+                      name="jabatan"
+                      className="form-control"
+                      value={feedbackForm.jabatan}
+                      onChange={handleFeedbackChange}
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label className="form-label">Perusahaan</label>
+                    <input
+                      type="text"
+                      name="perusahaan"
+                      className="form-control"
+                      value={feedbackForm.perusahaan}
+                      onChange={handleFeedbackChange}
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label className="form-label">Rating</label>
+                    <select
+                      name="rating"
+                      className="form-select"
+                      value={feedbackForm.rating}
+                      onChange={handleFeedbackChange}
+                    >
+                      <option value={5}>5 - Sangat Baik</option>
+                      <option value={4}>4 - Baik</option>
+                      <option value={3}>3 - Cukup</option>
+                      <option value={2}>2 - Kurang</option>
+                      <option value={1}>1 - Sangat Kurang</option>
+                    </select>
+                  </div>
+
+                  <div className="col-12">
+                    <label className="form-label">Pesan</label>
+                    <textarea
+                      name="pesan"
+                      className="form-control"
+                      rows="3"
+                      value={feedbackForm.pesan}
+                      onChange={handleFeedbackChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="col-12">
+                    <label className="form-label">Kesan</label>
+                    <textarea
+                      name="kesan"
+                      className="form-control"
+                      rows="3"
+                      value={feedbackForm.kesan}
+                      onChange={handleFeedbackChange}
+                    />
+                  </div>
+                </div>
+
+                {feedbackMessage && (
+                  <div className="feedback-alert mt-3">
+                    {feedbackMessage}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="feedback-submit-btn mt-4"
+                  disabled={feedbackLoading}
+                >
+                  {feedbackLoading ? "Mengirim..." : "Kirim Pesan & Kesan"}
+                </button>
+              </form>
             </div>
           </div>
-
-          <div className="col-md-6">
-            <div className="glass glass-card p-4 shadow border-0">
-              <p>
-                "Trainer sangat profesional."
-              </p>
-
-              <strong>- Perusahaan B</strong>
-            </div>
-          </div>
-
         </div>
       </section>
 
@@ -229,9 +408,9 @@ function App() {
       <section id="kontak" className="bg-dark text-white text-center p-5">
         <h3>Siap meningkatkan skill tim Anda?</h3>
 
-        <button className="btn btn-warning mt-3">
+        <Link to="/contact" className="hero-btn" style={{display: 'inline-block', textDecoration: 'none', textAlign: 'center'}}>
           Hubungi Kami
-        </button>
+        </Link>
       </section>
 
       {/* FOOTER */}

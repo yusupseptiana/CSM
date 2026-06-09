@@ -23,10 +23,14 @@ app.use(session({
 const trainingRoutes = require("./routes/training");
 const registrationRoutes = require("./routes/registration");
 const adminRoutes = require("./routes/admin");
+const contactRoutes = require("./routes/contact");
+const feedbackRoutes = require("./routes/feedback");
 
 app.use("/api/training", trainingRoutes);
 app.use("/api/register", registrationRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/feedbacks", feedbackRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

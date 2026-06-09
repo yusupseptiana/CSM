@@ -22,9 +22,9 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/register">Pendaftaran</Link>
             </li>
-            {/* <li className="nav-item">
-              <Link className="nav-link" to="/admin/login">Admin</Link>
-            </li> */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/contact">Kontak</Link>
+            </li>
           </ul>
         </div>
       </div>

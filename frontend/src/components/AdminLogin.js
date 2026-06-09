@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import apiPath from "../api";
 
 function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ function AdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/login", {
+      const res = await axios.post(apiPath('/admin/login'), {
         username, password
       }, { withCredentials: true });
       if (res.data.redirect) {
