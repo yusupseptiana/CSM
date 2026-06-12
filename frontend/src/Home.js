@@ -181,7 +181,8 @@ function App() {
                   className="text-white"
                   style={{
                     fontSize: "18px",
-                    lineHeight: "1.9"
+                    lineHeight: "1.9",
+                    textAlign: "justify"
                   }}
                 >
                   CSM Training & Consulting adalah salah satu divisi dari PT CITRA SELARAS MANDIRI yang bergerak di bidang pendidikan dan pelatihan serta jasa konsultan baik <i>public  training</i> maupun <i>inhouse training</i>, yang menawarkan sebuah solusi terintegrasi, efektif, efisien, dan mitra yang tepat bagi perusahaan anda dalam mempersiapkan dan mengembangkan Sumber Daya Manusia (<i>Humman Capital</i>). Berdiri pada tahun 1990 di Jakarta dengan Foundernya adalah Bapak H.Djamalun Sablie yang berpengalaman di bank milik pemerintah dan bidang usaha lainnya.
@@ -205,15 +206,23 @@ function App() {
                   className="text-white"
                   style={{
                     fontSize: "18px",
-                    lineHeight: "1.9"
+                    lineHeight: "1.9",
+                    textAlign: "justify"
                   }}
                 >
-                  CSM berkomitmen untuk secara konsisten memberikan nilai tambah, pelayanan prima dan solusi yang efektif pada setiap pelaksanaan kegiatan kepada anda sesuai dengan <i>Tag Line</i> kami yaitu: 
-                  <br/><br/>
+                  CSM berkomitmen untuk secara konsisten memberikan nilai tambah, pelayanan prima dan solusi yang efektif pada setiap pelaksanaan kegiatan kepada anda sesuai dengan <i>Tag Line</i> kami yaitu:
+                  </p>
+
+                  <p
+                    className="text-white"
+                    style={{
+                      fontSize: "18px",
+                      lineHeight: "1.9",
+                    }}
+                  >
                   <strong><i>"We Deliver Value - Added"</i></strong>
                   <br/><br/>
-
-                </p>
+                  </p>
 
                 <h3
                   className="fw-bold text-white mb-2 text-center"
