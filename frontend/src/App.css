@@ -12,12 +12,7 @@ body {
   /* keep a top offset so fixed navbar does not cover content */
   padding-top: 80px;
 
-  background: linear-gradient(
-    135deg,
-    #ff003c,
-    #ff002f,
-    #ff002f
-  );
+  background: #FF0000 !important;
 
   min-height: 100vh;
   overflow-x: hidden;
@@ -734,7 +729,7 @@ body:has(.admin-shell) .admin-shell {
 
 .feedback-submit-btn {
   border: none;
-  background: #ff1f57;
+  background: #FF0000;
   color: #fff;
   border-radius: 999px;
   padding: 14px 28px;
@@ -744,7 +739,7 @@ body:has(.admin-shell) .admin-shell {
 }
 
 .feedback-submit-btn:hover {
-  background: #d91449;
+  background: #FF0000;
   transform: translateY(-2px);
 }
 
