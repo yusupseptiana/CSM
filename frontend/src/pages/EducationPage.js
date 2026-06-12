@@ -5,8 +5,8 @@ function TrainingPage() {
     <div className="container py-5 mt-5">
 
       <img
-        src="/images/CSM-Training.jpg"
-        alt="Training"
+        src="/images/CSM-Education.jpg"
+        alt="Education"
         style={{
           width: "100%",
           maxWidth: "900px",

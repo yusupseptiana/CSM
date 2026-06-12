@@ -68,6 +68,15 @@ function App() {
     { name: "utomobank", logo: utomobank }
   ];
 
+  const formatTanggal = (tanggal) => {
+    const date = new Date(tanggal);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  };
+
   const formatRupiah = (angka) => {
   const number = Number(angka || 0);
   return "Rp." + number.toLocaleString("id-ID", {
@@ -141,9 +150,9 @@ function App() {
               perbankan, industri, dan hospitality
             </p>
 
-            <button className="hero-btn">
+            <a href="#jadwal" className="hero-btn">
               Lihat Jadwal
-            </button>
+            </a>
 
           </div>
 
@@ -353,7 +362,7 @@ function App() {
               {Array.isArray(data) ? data.map(item => (
                 <tr key={item.id}>
                   <td>{item.nama_training}</td>
-                  <td>{item.tanggal}</td>
+                  <td>{formatTanggal(item.tanggal)}</td>
                   <td>{item.durasi}</td>
                   <td>{item.tempat}</td>
                   <td>{formatRupiah(item.harga)}</td>
@@ -531,7 +540,7 @@ function App() {
       <section id="kontak" className="bg-dark text-white text-center p-5">
         <h3>Siap meningkatkan skill tim Anda?</h3>
 
-        <Link to="/contact" className="hero-btn" style={{display: 'inline-block', textDecoration: 'none', textAlign: 'center'}}>
+        <Link to="/contact" className="hero-btn" style={{display: 'inline-block', textDecoration: 'none', textAlign: 'center', color: '#FF0000'}}>
           Hubungi Kami
         </Link>
       </section>
