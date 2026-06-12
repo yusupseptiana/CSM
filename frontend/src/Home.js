@@ -5,6 +5,29 @@ import apiPath from "./api";
 import "./App.css";
 import Navbar from "./components/Navbar";
 
+// logo
+import bankindonesia from "./assets/partners/BankIndonesia.png";
+import bca from "./assets/partners/BCA.png";
+import bjbsyariah from "./assets/partners/bjbsyariah.png";
+import bni from "./assets/partners/BNI.png";
+import bnisyariah from "./assets/partners/BNISyariah.png";
+import bri from "./assets/partners/BRI.png";
+import chevron from "./assets/partners/chevron.png";
+import diskukjabar from "./assets/partners/DiskukJabar.png";
+import indofood from "./assets/partners/Indofood.png";
+import indolakto from "./assets/partners/Indolakto.png";
+import KejaksaanNegeriJakartaBarat from "./assets/partners/KejaksaanNegeriJakartaBarat.png";
+import kemkominfo from "./assets/partners/kemkominfo.png";
+import m8 from "./assets/partners/M8.png";
+import mandiridanapensiun from "./assets/partners/mandiridanapensiun.png";
+import mandirisyariah from "./assets/partners/mandirisyariah.png";
+import paninbank from "./assets/partners/PaninBank.png";
+import ptasiagrandinternational from "./assets/partners/PTAsiaGrandInternational.jpg";
+import ptpalindonesialogo from "./assets/partners/PTPALIndonesiaLogo.png";
+import seameo from "./assets/partners/Seameo.png";
+import topasgaleriahotel from "./assets/partners/topasgaleriahotel.png";
+import utomobank from "./assets/partners/UtomoBank.png";
+
 function App() {
   const [data, setData] = useState([]);
   
@@ -20,6 +43,38 @@ function App() {
   const [feedbackLoading, setFeedbackLoading] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [featuredFeedbacks, setFeaturedFeedbacks] = useState([]);
+
+  const partners = [
+    { name: "bankindonesia", logo: bankindonesia },
+    { name: "bca", logo: bca },
+    { name: "bjbsyariah", logo: bjbsyariah },
+    { name: "bni", logo: bni },
+    { name: "bnisyariah", logo: bnisyariah },
+    { name: "bri", logo: bri },
+    { name: "chevron", logo: chevron },
+    { name: "diskukjabar", logo: diskukjabar },
+    { name: "indofood", logo: indofood },
+    { name: "indolakto", logo: indolakto },
+    { name: "KejaksaanNegeriJakartaBarat", logo: KejaksaanNegeriJakartaBarat },
+    { name: "kemkominfo", logo: kemkominfo },
+    { name: "m8", logo: m8 },
+    { name: "mandiridanapensiun", logo: mandiridanapensiun },
+    { name: "mandirisyariah", logo: mandirisyariah },
+    { name: "paninbank", logo: paninbank },
+    { name: "ptasiagrandinternational", logo: ptasiagrandinternational },
+    { name: "ptpalindonesialogo", logo: ptpalindonesialogo },
+    { name: "seameo", logo: seameo },
+    { name: "topasgaleriahotel", logo: topasgaleriahotel },
+    { name: "utomobank", logo: utomobank }
+  ];
+
+  const formatRupiah = (angka) => {
+  const number = Number(angka || 0);
+  return "Rp." + number.toLocaleString("id-ID", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
 
   useEffect(() => {
     axios.get(apiPath('/training'))
@@ -110,13 +165,16 @@ function App() {
             <div className="row align-items-center">
 
               {/* KIRI */}
-              <div className="col-md-6">
+              <div className="col-md-6 border-end pe-md-4"
+              style={{ borderRight: "1px solid rgba(255,255,255,0.35)" }}
+              >
+              
 
                 <h3
-                  className="fw-bold text-white mb-4"
+                  className="fw-bold text-white mb-4 text-center"
                   style={{ fontSize: "40px" }}
                 >
-                  PT. Citra Selaras Mandiri
+                  Aboute CSM Training & Consulting
                 </h3>
 
                 <p
@@ -126,38 +184,74 @@ function App() {
                     lineHeight: "1.9"
                   }}
                 >
-                  PT. Citra Selaras Mandiri merupakan perusahaan
-                  yang bergerak di bidang pelatihan profesional,
-                  pengembangan sumber daya manusia, dan konsultasi bisnis.
-
-                  <br /><br />
-
-                  Kami menyediakan berbagai program training
-                  modern untuk meningkatkan kompetensi karyawan
-                  dan perusahaan di bidang perbankan,
-                  industri, hospitality, dan pelayanan publik.
-
-                  <br /><br />
-
-                  Dengan trainer profesional dan metode pembelajaran
-                  interaktif, kami berkomitmen membantu perusahaan
-                  mencapai kualitas SDM yang unggul dan kompetitif.
+                  CSM Training & Consulting adalah salah satu divisi dari PT CITRA SELARAS MANDIRI yang bergerak di bidang pendidikan dan pelatihan serta jasa konsultan baik <i>public  training</i> maupun <i>inhouse training</i>, yang menawarkan sebuah solusi terintegrasi, efektif, efisien, dan mitra yang tepat bagi perusahaan anda dalam mempersiapkan dan mengembangkan Sumber Daya Manusia (<i>Humman Capital</i>). Berdiri pada tahun 1990 di Jakarta dengan Foundernya adalah Bapak H.Djamalun Sablie yang berpengalaman di bank milik pemerintah dan bidang usaha lainnya.
                 </p>
 
               </div>
 
               {/* KANAN */}
-              <div className="col-md-6 text-center">
+              <div className="col-md-6 text-center ps-md-4">
 
-                <img
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
-                  alt="company"
-                  className="img-fluid rounded-4 shadow"
+                <h3
+                  className="fw-bold text-white mb-2 text-center"
+                  style={{ fontSize: "20px" }}
+                >
+                  WHY US?
+                  <br/>
+                  _______________________
+                </h3>
+
+                <p
+                  className="text-white"
                   style={{
-                    maxHeight: "420px",
-                    objectFit: "cover"
+                    fontSize: "18px",
+                    lineHeight: "1.9"
                   }}
-                />
+                >
+                  CSM berkomitmen untuk secara konsisten memberikan nilai tambah, pelayanan prima dan solusi yang efektif pada setiap pelaksanaan kegiatan kepada anda sesuai dengan <i>Tag Line</i> kami yaitu: 
+                  <br/><br/>
+                  <strong><i>"We Deliver Value - Added"</i></strong>
+                  <br/><br/>
+
+                </p>
+
+                <h3
+                  className="fw-bold text-white mb-2 text-center"
+                  style={{ fontSize: "20px" }}
+                >
+                  COMPREHENSIVE
+                  <br/>
+                  _______________________
+                </h3>
+
+                <p
+                  className="text-white"
+                  style={{
+                    fontSize: "18px",
+                    lineHeight: "1.9"
+                  }}
+                >
+                  Pelatihan dikemas dengan pendekatan secara komprehensif menyeluruh.
+                </p>
+
+                <h3
+                  className="fw-bold text-white mb-2 text-center"
+                  style={{ fontSize: "20px" }}
+                >
+                  EXPERTISE/PRAKTISI
+                  <br/>
+                  _______________________
+                </h3>
+
+                <p
+                  className="text-white"
+                  style={{
+                    fontSize: "18px",
+                    lineHeight: "1.9"
+                  }}
+                >
+                  Memiliki pengajar dengan latar belakang akademisi dan praktisi yang berpengalaman di bidangnya masing-masing.
+                </p>
 
               </div>
 
@@ -169,9 +263,29 @@ function App() {
 
       </section>
 
+      
+      {/* OUR PARTNER */}
+      <section id="partner" className="container py-5">
+        <h2 className="text-center text-white mb-5 fw-bold">Our Partner</h2>
+        <div className="row justify-content-center align-items-center">
+          {partners.map((partner, index) => (
+            <div className="col-6 col-md-4 col-lg-2 mb-4 text-center" key={index}>
+              <div className="glass glass-card p-3 h-100 d-flex align-items-center justify-content-center bg-white">
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="img-fluid"
+                  style={{ maxHeight: "70px", objectFit: "contain" }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* LAYANAN */}
       <section className="container py-5">
-        <h2 className="text-center mb-4 fw-bold">
+        <h2 className="text-center mb-4 fw-bold text-white">
           Layanan Kami
         </h2>
 
@@ -233,7 +347,7 @@ function App() {
                   <td>{item.tanggal}</td>
                   <td>{item.durasi}</td>
                   <td>{item.tempat}</td>
-                  <td>Rp {item.harga}</td>
+                  <td>{formatRupiah(item.harga)}</td>
                 </tr>
               )) : null}
             </tbody>
@@ -244,7 +358,7 @@ function App() {
 
       {/* TESTIMONI */}
       <section id="testimoni" className="container py-5">
-        <h2 className="text-center mb-4 fw-bold">
+        <h2 className="text-center mb-4 fw-bold text-white">
           Testimoni
         </h2>
 
