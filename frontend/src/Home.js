@@ -165,7 +165,7 @@ function App() {
 
         <div className="container">
 
-          <h2 className="section-title">
+          <h2 className="section-title text-white">
             Profil Perusahaan
           </h2>
 
