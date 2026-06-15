@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar"; 
+import Navbar from "./Navbar";
 import apiPath from "../api";
 
 function RegistrationForm() {
@@ -14,7 +13,6 @@ function RegistrationForm() {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(apiPath('/training'))
@@ -22,30 +20,70 @@ function RegistrationForm() {
       .catch(err => console.log(err));
   }, []);
 
-  // Debug: log trainings to console to help diagnose empty select
-  useEffect(() => {
-    console.log('RegistrationForm trainings:', trainings);
-  }, [trainings]);
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
-    try {
-      const res = await axios.post(apiPath('/register'), form);
-      setMessage(res.data?.message || "Pendaftaran berhasil! Silakan tunggu konfirmasi dari admin.");
-      setForm({ training_id: "", nama: "", email: "", no_telepon: "" });
-      setTimeout(() => navigate("/"), 3000);
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Terjadi kesalahan");
-    } finally {
-      setLoading(false);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setMessage("");
+
+  const waWindow = window.open("", "_blank");
+
+  try {
+    const res = await axios.post(apiPath('/register'), form);
+
+    const selectedTraining = trainings.find(
+      (t) => String(t.id || t.id_training) === String(form.training_id)
+    );
+
+    const trainingName = selectedTraining?.nama_training || "-";
+    const trainingDate = selectedTraining?.tanggal
+      ? new Date(selectedTraining.tanggal).toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : "-";
+
+    const phoneNumber = "628991117333";
+
+    const text = `
+Halo CSM Training & Consulting,
+
+Saya sudah mengisi form pendaftaran training dan ingin melanjutkan konfirmasi pembayaran.
+
+Detail pendaftar:
+Nama: ${form.nama}
+Email: ${form.email}
+No. Telepon: ${form.no_telepon}
+
+Detail training:
+Training: ${trainingName}
+Tanggal: ${trainingDate}
+
+Mohon info metode pembayaran selanjutnya.
+    `.trim();
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+
+    setMessage(res.data?.message || "Pendaftaran berhasil!");
+
+    if (waWindow) {
+      waWindow.location.href = whatsappUrl;
+    } else {
+      window.open(whatsappUrl, "_blank");
     }
-  };
+
+    setForm({ training_id: "", nama: "", email: "", no_telepon: "" });
+  } catch (err) {
+    if (waWindow) waWindow.close();
+    setMessage(err.response?.data?.message || "Terjadi kesalahan");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div>
@@ -55,11 +93,13 @@ function RegistrationForm() {
           <div className="col-md-8 col-lg-6">
             <div className="glass p-4 p-md-5">
               <h2 className="text-white text-center mb-4">Form Pendaftaran Training</h2>
+
               {message && (
                 <div className={`alert ${message.includes("berhasil") ? "alert-success" : "alert-danger"} text-center`}>
                   {message}
                 </div>
               )}
+
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label className="form-label">Pilih Training</label>
@@ -77,16 +117,18 @@ function RegistrationForm() {
                         month: 'long',
                         year: 'numeric'
                       });
+
                       return (
                         <option key={t.id || t.id_training} value={t.id || t.id_training}>
                           {t.nama_training} - {tanggal} (Rp {Number(t.harga).toLocaleString('id-ID')})
                         </option>
                       );
                     }) : (
-                      <option value="" disabled> Tidak ada training tersedia </option>
+                      <option value="" disabled>Tidak ada training tersedia</option>
                     )}
                   </select>
                 </div>
+
                 <div className="mb-3">
                   <label className="form-label">Nama Lengkap</label>
                   <input
@@ -98,6 +140,7 @@ function RegistrationForm() {
                     required
                   />
                 </div>
+
                 <div className="mb-3">
                   <label className="form-label">Email</label>
                   <input
@@ -109,6 +152,7 @@ function RegistrationForm() {
                     required
                   />
                 </div>
+
                 <div className="mb-3">
                   <label className="form-label">No. Telepon</label>
                   <input
@@ -119,6 +163,7 @@ function RegistrationForm() {
                     onChange={handleChange}
                   />
                 </div>
+
                 <button type="submit" className="submit-btn" disabled={loading}>
                   {loading ? "Memproses..." : "Daftar Sekarang"}
                 </button>
