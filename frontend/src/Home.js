@@ -284,21 +284,17 @@ function App() {
 
       
       {/* OUR PARTNER */}
-      <section id="partner" className="container py-5">
-        <h2 className="text-center text-white mb-5 fw-bold">Our Partner</h2>
-        <div className="row justify-content-center align-items-center">
-          {partners.map((partner, index) => (
-            <div className="col-6 col-md-4 col-lg-2 mb-4 text-center" key={index}>
-              <div className="glass glass-card p-3 h-100 d-flex align-items-center justify-content-center bg-white">
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="img-fluid"
-                  style={{ maxHeight: "70px", objectFit: "contain" }}
-                />
+      <section id="partner" className="partner-section">
+        <div className="container">
+          <h2 className="partner-title">Our Partner</h2>
+
+          <div className="partner-grid">
+            {partners.map((item, index) => (
+              <div className="partner-card" key={index}>
+                <img src={item.logo} alt={item.nama} />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
