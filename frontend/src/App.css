@@ -338,15 +338,104 @@ label {
 /* =========================
    FOOTER
 ========================= */
-.footer {
-  padding: 30px;
+.site-footer {
+  background: linear-gradient(180deg, #1d2026 0%, #111318 100%);
+  color: #f3f4f6;
+  padding: 64px 20px 24px;
+  border-top: 4px solid #ff0000;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.footer-logo {
+  width: 110px;
+  margin-bottom: 16px;
+}
+
+.footer-brand p {
+  color: #c9ced6;
+  line-height: 1.8;
+  max-width: 320px;
+}
+
+.site-footer h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #ffffff;
+}
+
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer ul li {
+  margin-bottom: 10px;
+  color: #c9ced6;
+  line-height: 1.7;
+}
+
+.site-footer a {
+  color: #c9ced6;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.site-footer a:hover {
+  color: #ff4d4d;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 18px;
   text-align: center;
-  color: white;
+}
 
-  background:
-    rgba(255,255,255,0.08);
+.footer-bottom p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #aeb4be;
+}
 
-  backdrop-filter: blur(10px);
+@media (max-width: 991px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .site-footer {
+    padding: 48px 16px 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .footer-brand p {
+    max-width: 100%;
+  }
+
+  .site-footer h5 {
+    margin-bottom: 10px;
+  }
+
+  .site-footer ul li {
+    margin-bottom: 8px;
+  }
+
+  .footer-bottom {
+    text-align: left;
+  }
 }
 
 /* PROFILE */
@@ -853,5 +942,115 @@ body:has(.admin-shell) .admin-shell {
 
   .feedback-submit-btn {
     width: 100%;
+  }
+}
+
+
+
+/* jadwal training */
+.jadwal-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.jadwal-table {
+  min-width: 700px;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+
+.jadwal-table th,
+.jadwal-table td {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .jadwal-table {
+    min-width: 650px;
+    font-size: 14px;
+  }
+
+  .jadwal-table th,
+  .jadwal-table td {
+    padding: 12px 14px;
+  }
+}
+
+
+/* partner */
+
+.partner-section {
+  background: #ff0000;
+  padding: 60px 20px;
+}
+
+.partner-title {
+  color: #fff;
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 32px;
+}
+
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+
+.partner-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 18px;
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  transition: transform 0.25s ease;
+}
+
+.partner-card img {
+  max-width: 100%;
+  max-height: 52px;
+  object-fit: contain;
+}
+
+.partner-card:hover {
+  transform: translateY(-4px);
+}
+
+@media (max-width: 991px) {
+  .partner-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .partner-section {
+    padding: 44px 16px;
+  }
+
+  .partner-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .partner-card {
+    min-height: 82px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .partner-card img {
+    max-height: 38px;
+  }
+
+  .partner-title {
+    font-size: 1.8rem;
+    margin-bottom: 24px;
   }
 }

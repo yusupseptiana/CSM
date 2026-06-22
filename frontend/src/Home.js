@@ -4,6 +4,7 @@ import axios from "axios";
 import apiPath from "./api";
 import "./App.css";
 import Navbar from "./components/Navbar";
+import csmLogo from "./assets/csm-logo.png";
 
 // logo
 import bankindonesia from "./assets/partners/BankIndonesia.png";
@@ -283,21 +284,17 @@ function App() {
 
       
       {/* OUR PARTNER */}
-      <section id="partner" className="container py-5">
-        <h2 className="text-center text-white mb-5 fw-bold">Our Partner</h2>
-        <div className="row justify-content-center align-items-center">
-          {partners.map((partner, index) => (
-            <div className="col-6 col-md-4 col-lg-2 mb-4 text-center" key={index}>
-              <div className="glass glass-card p-3 h-100 d-flex align-items-center justify-content-center bg-white">
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="img-fluid"
-                  style={{ maxHeight: "70px", objectFit: "contain" }}
-                />
+      <section id="partner" className="partner-section">
+        <div className="container">
+          <h2 className="partner-title">Our Partner</h2>
+
+          <div className="partner-grid">
+            {partners.map((item, index) => (
+              <div className="partner-card" key={index}>
+                <img src={item.logo} alt={item.nama} />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -340,79 +337,39 @@ function App() {
       </section>
 
       {/* JADWAL */}
-      <section id="jadwal" className="bg-light py-5">
-        <div className="container">
+<section id="jadwal" className="bg-light py-5">
+  <div className="container">
+    <h2 className="text-center mb-4 fw-bold">
+      Jadwal Training
+    </h2>
 
-          <h2 className="text-center mb-4 fw-bold">
-            Jadwal Training
-          </h2>
+    <div className="table-responsive jadwal-table-wrap">
+      <table className="table table-bordered text-center shadow jadwal-table">
+        <thead className="table-dark">
+          <tr>
+            <th>Nama</th>
+            <th>Tanggal</th>
+            <th>Durasi</th>
+            <th>Tempat</th>
+            <th>Harga</th>
+          </tr>
+        </thead>
 
-          <table className="table table-bordered text-center shadow">
-            <thead className="table-dark">
-              <tr>
-                <th>Nama</th>
-                <th>Tanggal</th>
-                <th>Durasi</th>
-                <th>Tempat</th>
-                <th>Harga</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {Array.isArray(data) ? data.map(item => (
-                <tr key={item.id}>
-                  <td>{item.nama_training}</td>
-                  <td>{formatTanggal(item.tanggal)}</td>
-                  <td>{item.durasi}</td>
-                  <td>{item.tempat}</td>
-                  <td>{formatRupiah(item.harga)}</td>
-                </tr>
-              )) : null}
-            </tbody>
-          </table>
-
-        </div>
-      </section>
-
-      {/* TESTIMONI */}
-      <section id="testimoni" className="container py-5">
-        <h2 className="text-center mb-4 fw-bold text-white">
-          Testimoni
-        </h2>
-
-        <div className="row">
-          {featuredFeedbacks.length > 0 ? (
-            featuredFeedbacks.map((item) => (
-              <div className="col-md-6 mb-4" key={item.id}>
-                <div className="glass glass-card p-4 shadow border-0 h-100">
-                  <p>"{item.pesan}"</p>
-                  {item.kesan && <p className="mt-2">{item.kesan}</p>}
-                  <strong>
-                    - {item.nama}
-                    {item.perusahaan ? `, ${item.perusahaan}` : ""}
-                  </strong>
-                </div>
-              </div>
-            ))
-          ) : (
-            <>
-              <div className="col-md-6">
-                <div className="glass glass-card p-4 shadow border-0">
-                  <p>"Training sangat membantu dan aplikatif."</p>
-                  <strong>- Perusahaan A</strong>
-                </div>
-              </div>
-
-              <div className="col-md-6">
-                <div className="glass glass-card p-4 shadow border-0">
-                  <p>"Trainer sangat profesional."</p>
-                  <strong>- Perusahaan B</strong>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </section>
+        <tbody>
+          {Array.isArray(data) ? data.map((item) => (
+            <tr key={item.id}>
+              <td>{item.nama_training}</td>
+              <td>{formatTanggal(item.tanggal)}</td>
+              <td>{item.durasi}</td>
+              <td>{item.tempat}</td>
+              <td>{formatRupiah(item.harga)}</td>
+            </tr>
+          )) : null}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
 
 {/* //pesan dan kesan */}
@@ -545,10 +502,51 @@ function App() {
         </Link>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-black text-white text-center p-3">
-        <p>© 2026 PT. Citra Selaras Mandiri</p>
-      </footer>
+<footer className="site-footer">
+  <div className="container">
+    <div className="footer-grid">
+      <div className="footer-brand">
+        <img src={csmLogo} alt="CSM Logo" className="footer-logo" />
+        <p>
+          PT. Citra Selaras Mandiri menyediakan layanan training,
+          consulting, dan pengembangan SDM untuk perusahaan dan institusi.
+        </p>
+      </div>
+
+      <div>
+        <h5>Navigasi</h5>
+        <ul>
+          <li><a href="#home">Beranda</a></li>
+          <li><a href="#program">Program</a></li>
+          <li><a href="#jadwal">Jadwal Training</a></li>
+          <li><a href="#kontak">Kontak</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Layanan</h5>
+        <ul>
+          <li>Public Training</li>
+          <li>Inhouse Training</li>
+          <li>Consulting</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Kontak</h5>
+        <ul>
+          <li>Email: info@csm.co.id</li>
+          <li>Telepon: 085163096311</li>
+          <li>Tangerang, Indonesia</li>
+        </ul>
+      </div>
+    </div>
+
+    <div className="footer-bottom">
+      <p>© 2026 PT. Citra Selaras Mandiri. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
 
     </div>
   );

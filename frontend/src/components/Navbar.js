@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import csmlogo from "../assets/partners/csm-logo.png";
+import csmlogo from "../assets/csm-logo.png";
 
 function Navbar() {
   const closeNavbar = () => {

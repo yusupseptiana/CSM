@@ -47,7 +47,7 @@ function RegistrationForm() {
         })
       : "-";
 
-    const phoneNumber = "628991117333";
+    const phoneNumber = "6285163096311";
 
     const text = `
 Halo CSM Training & Consulting,
